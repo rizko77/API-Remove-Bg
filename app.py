@@ -8,15 +8,7 @@ app = Flask(__name__)
 CORS(app)  # Menambahkan CORS untuk mengizinkan permintaan dari domain lain
 
 # API untuk menghapus background
-# @app.route("/remove-bg", methods=["POST"])
-@app.route('/remove-bg', methods=['OPTIONS'])
-def options():
-    response = jsonify({'message': 'OK'})
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    response.headers.add('Access-Control-Allow-Methods', 'POST, OPTIONS')
-    response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
-    return response
-
+@app.route("/remove-bg", methods=["POST"])
 def remove_bg():
     if "image" not in request.files:
         return jsonify({"error": "No image uploaded"}), 400
@@ -39,11 +31,3 @@ def remove_bg():
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)
-
-@app.after_request
-def after_request(response):
-    response.headers.add('Access-Control-Allow-Origin', '*')  # CORS untuk semua origin
-    response.headers.add('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')  # Metode yang diizinkan
-    response.headers.add('Access-Control-Allow-Headers', 'Content-Type')  # Header yang diizinkan
-    return response
-
